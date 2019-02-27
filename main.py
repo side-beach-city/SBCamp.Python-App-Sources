@@ -8,20 +8,20 @@ class Weather:
   def __init__(self, data):
     self.date = data["date"]
     self.telop= data["telop"]
-    self.temperature_max = None
-    self.temperature_min = None
     if data["temperature"]["max"] is not None:
-      self.temperature_max = data["temperature"]["max"]["celsius"]
+      self.temperature_max = "{0}℃".format(data["temperature"]["max"]["celsius"])
+    else:
+      self.temperature_max = "--"
     if data["temperature"]["min"] is not None:
-      self.temperature_min = data["temperature"]["min"]["celsius"]
+      self.temperature_min = "{0}℃".format(data["temperature"]["min"]["celsius"])
+    else:
+      self.temperature_min = "--"
 
   def print(self):
     print(self.date)
     print("  " + self.telop)
-    if self.temperature_min is not None:
-      print("  最低気温:{0}".format(self.temperature_min))
-    if self.temperature_max is not None:
-      print("  最高気温:{0}".format(self.temperature_max))
+    print("  最低気温:{0}".format(self.temperature_min))
+    print("  最高気温:{0}".format(self.temperature_max))
 
 # 初期処理
 id = 140010
