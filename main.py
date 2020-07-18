@@ -2,9 +2,10 @@
 
 import urllib.request
 import json
+import pprint
 
 # 天気予報取得クラス
-class Weather:
+class Weather(object):
   def __init__(self, data):
     self.date = data["date"]
     self.telop= data["telop"]
@@ -15,11 +16,18 @@ class Weather:
     if data["temperature"]["min"] is not None:
       self.temperature_min = data["temperature"]["min"]["celsius"]
 
+  def print(self):
+    print(self.date)
+    print("  " + self.telop)
+    if self.temperature_max is not None:
+      print("  最高気温：{0}".format(self.temperature_max))
+    if self.temperature_min is not None:
+      print("  最低気温：{0}".format(self.temperature_min))
+
 # 初期処理
-id = 140010
-url = "http://weather.livedoor.com/forecast/webservice/json/v1?city={0}"
+url = "http://weather.livedoor.com/forecast/webservice/json/v1?city=140010"
 # URL取得
-req = urllib.request.Request(url.format(id))
+req = urllib.request.Request(url)
 with urllib.request.urlopen(req) as res:
   data = json.load(res)
   # 処理
@@ -29,9 +37,4 @@ with urllib.request.urlopen(req) as res:
     weathers.append(Weather(forecast))
   # 表示
   for item in weathers:
-    print(item.date)
-    print("  " + item.telop)
-    if item.temperature_min is not None:
-      print("  最低気温:{0}".format(item.temperature_min)) 
-    if item.temperature_max is not None:
-      print("  最高気温:{0}".format(item.temperature_max))
+    item.print()
